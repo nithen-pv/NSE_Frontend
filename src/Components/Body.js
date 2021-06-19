@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Grid, Container, CircularProgress } from "@material-ui/core/";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -50,19 +51,21 @@ function Body() {
   return (
     <div style={{ textAlign: "center" }}>
       <Container maxWidth="sm" style={{ marginTop: "15vh" }}>
-        <input
-          type="text"
-          value={searchItem}
-          name="searchInput"
-          onChange={handleChange}
-          placeholder="Search"
-          style={{
-            width: "100%",
-            height: "6vh",
-            fontSize: "1.5rem",
-            borderRadius: "10px",
-          }}
-        />
+
+          <input
+            type="text"
+            value={searchItem}
+            name="searchInput"
+            onChange={handleChange}
+            placeholder="    Search"
+            style={{
+              width: "100%",
+              height: "6vh",
+              fontSize: "1.5rem",
+              borderRadius: "10px",
+            }}
+          />
+          
       </Container>
 
       {data === undefined || data.length === 0
@@ -94,11 +97,14 @@ function Body() {
             }}
           >
             <div className={classes.root}>
-              <p style={{textAlign:"left",fontWeight:"bold"}}>{results.Name}</p>
+              <p style={{ textAlign: "left", fontWeight: "bold" }}>
+                {results.Name}
+              </p>
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   <Paper className={classes.paper}>
-                  Market Price: <span style={{ color: "red" }}> {results.EPS} </span>
+                    Market Price:{" "}
+                    <span style={{ color: "red" }}> {results.EPS} </span>
                   </Paper>
                 </Grid>
                 <Grid item xs={4}>

@@ -23,7 +23,7 @@ export default function NavBar() {
     <div className={classes.root} style={{backgroundColor:"#c3dfe9"}}>
       <AppBar position="static" style={{backgroundColor:"#c3dfe9"}}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title} style={{padding:"1.5rem",color:"black"}}>
+          <Typography variant="h5" className={classes.title} style={{padding:"1.5rem",color:"black",fontWeight:"bold"}}>
             Stocks
           </Typography>
         </Toolbar>
