@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Axios from "../axios";
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import {Grid,Container} from '@material-ui/core/';
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import { Grid, Container, CircularProgress } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
 }));
@@ -32,6 +32,7 @@ function Body() {
 
   const handleChange = async (e) => {
     searchItem === "" && setData([]);
+    searchItem === "" && setcmpInfo([]);
     setSearchItem(e.target.value);
     const req = await Axios.post("/companies/cmpname", { Name: searchItem });
     req.data.data && console.log(req.data.data);
@@ -42,60 +43,112 @@ function Body() {
     const req = await Axios.post("/companies/cmpname", { Name: searchItem });
     req.data.data && console.log(req.data.data);
     req.data.data && setcmpInfo(req.data.data);
+    setSearchItem("");
   };
 
   const classes = useStyles();
   return (
-    <div style={{ textAlign: "center", backgroundColor: "white" }}>
-      <input
-        type="text"
-        value={searchItem}
-        name="searchInput"
-        onChange={handleChange}
-      />
-      {data === undefined || data.length === 0 ? (
-        <p>Loading</p>
-      ) : (
-        searchItem !== "" &&
-        data.map((results) => (
-          <p style={{ color: "black" }} onClick={()=>{redirectPage(results.Name)}}>
-            {results.Name}
-          </p>
-        ))
-      )}
+    <div style={{ textAlign: "center" }}>
+      <Container maxWidth="sm" style={{ marginTop: "15vh" }}>
+        <input
+          type="text"
+          value={searchItem}
+          name="searchInput"
+          onChange={handleChange}
+          placeholder="Search"
+          style={{
+            width: "100%",
+            height: "6vh",
+            fontSize: "1.5rem",
+            borderRadius: "10px",
+          }}
+        />
+      </Container>
+
+      {data === undefined || data.length === 0
+        ? console.log("Empty")
+        : searchItem !== "" &&
+          data.map((results) => (
+            <p
+              style={{ color: "black" }}
+              onClick={() => {
+                redirectPage(results.Name);
+              }}
+            >
+              {results.Name}
+            </p>
+          ))}
 
       {cmpinfo === undefined || data.length === 0 ? (
-        <p>Loading</p>
+        <CircularProgress color="secondary" style={{ marginTop: "30vh" }} />
       ) : (
         cmpinfo.map((results) => (
-            <Container maxWidth="sm">
-            
-         
-          <div className={classes.root}>
-            <Grid container spacing={3}>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>Name: {results.Name}</Paper>
+          <Container
+            maxWidth="sm"
+            style={{
+              backgroundColor: "white",
+              marginTop: "15vh",
+              padding: "30px",
+              borderRadius: "10px",
+              boxShadow: "1px 4px 6px grey",
+            }}
+          >
+            <div className={classes.root}>
+              <p style={{textAlign:"left",fontWeight:"bold"}}>{results.Name}</p>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                  Market Price: <span style={{ color: "red" }}> {results.EPS} </span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    EPS: <span style={{ color: "red" }}> {results.EPS}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    ROCE: <span style={{ color: "red" }}> {results.ROCE}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Reserves:{" "}
+                    <span style={{ color: "red" }}> {results.Reserves}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                  <Paper className={classes.paper}>
+                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
+                  </Paper>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>Debt: {results.Debt}</Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>EPS: {results.EPS}</Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>ROCE: {results.ROCE}</Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>Reserves: {results.Reserves}</Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>Debt: {results.Debt}</Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper className={classes.paper}>Debt: {results.Debt}</Paper>
-              </Grid>
-            </Grid>
-          </div>
+            </div>
           </Container>
         ))
       )}
