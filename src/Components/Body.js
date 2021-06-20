@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import Axios from "../axios";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import {
-  Grid,
-  Container,
-  CircularProgress,
-  Typography,
-} from "@material-ui/core/";
+import { Container, Typography, Divider } from "@material-ui/core/";
+import CompanyInfo from "./Company";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,18 +35,18 @@ function Body() {
     searchItem === "" && setData([]);
     searchItem === "" && setcmpInfo([]);
     setSearchItem(e.target.value);
-    const req = await Axios.post("/companies/cmpname", { Name: searchItem });
-    req.data.data && console.log(req.data.data);
+    const req = await Axios.post("/companies/cmpname", {
+      Name: e.target.value,
+    });
     req.data.data && setData(req.data.data);
   };
 
   const redirectPage = async (cname) => {
-    const req = await Axios.post("/companies/cmpname", { Name: searchItem });
-    req.data.data && console.log(req.data.data);
+    const req = await Axios.post("/companies/cmpname", { Name: cname });
     req.data.data && setcmpInfo(req.data.data);
     setSearchItem("");
   };
-
+  console.log("SEARCH item: ", searchItem);
   const classes = useStyles();
   return (
     <div style={{ textAlign: "center" }}>
@@ -81,108 +76,47 @@ function Body() {
             height: "6vh",
             fontSize: "1.5rem",
             borderRadius: "10px",
+            marginTop: "3vh",
+            border: "0",
           }}
         />
       </Container>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            textAlign: "center",
+            backgroundColor: "white",
+            margin: "0",
+            width: "25%",
+            marginTop: "5px",
+            borderBottomLeftRadius: "20px",
+            borderBottomRightRadius: "20px",
+          }}
+        >
+          {data === undefined || data.length === 0
+            ? console.log("Empty")
+            : searchItem !== "" &&
+              data.map((results) => (
+                <p
+                  key={results.Name}
+                  style={{
+                    color: "red",
+                    backgroundColor: "white",
+                    padding: "10px",
+                    margin: "15px 0",
+                  }}
+                  onClick={() => {
+                    redirectPage(results.Name);
+                  }}
+                >
+                  {results.Name}
+                  <Divider style={{ marginTop: "20px" }} />
+                </p>
+              ))}
+        </div>
+      </div>
 
-      {data === undefined || data.length === 0
-        ? console.log("Empty")
-        : searchItem !== "" &&
-          data.map((results) => (
-            <p
-              style={{ color: "red" }}
-              onClick={() => {
-                redirectPage(results.Name);
-              }}
-            >
-              {results.Name}
-            </p>
-          ))}
-
-      {cmpinfo === undefined || data.length === 0 ? (
-        <CircularProgress color="secondary" style={{ marginTop: "30vh" }} />
-      ) : (
-        cmpinfo.map((results) => (
-          <Container
-            maxWidth="sm"
-            style={{
-              backgroundColor: "white",
-              marginTop: "5vh",
-              padding: "30px",
-              borderRadius: "10px",
-              boxShadow: "1px 4px 6px grey",
-            }}
-          >
-            <div className={classes.root}>
-              <p style={{ textAlign: "left", fontWeight: "bold" }}>
-                {results.Name}
-              </p>
-              <Grid
-                container
-                spacing={1}
-                style={{
-                  backgroundColor: "#DDDDDD",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Market Price:{" "}
-                    <span style={{ color: "red" }}> {results.EPS} </span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    EPS: <span style={{ color: "red" }}> {results.EPS}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    ROCE: <span style={{ color: "red" }}> {results.ROCE}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Reserves:{" "}
-                    <span style={{ color: "red" }}> {results.Reserves}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-                <Grid item xs={4}>
-                  <Paper className={classes.paper}>
-                    Debt: <span style={{ color: "red" }}> {results.Debt}</span>
-                  </Paper>
-                </Grid>
-              </Grid>
-            </div>
-          </Container>
-        ))
-      )}
+      <CompanyInfo data={data} cmpinfo={cmpinfo} />
     </div>
   );
 }
