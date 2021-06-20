@@ -14,14 +14,17 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  navbar:{
+    background:"linear-gradient(to top, #c3dfe9 0%, #ffffff 100%)"
+  }
 }));
 
 export default function NavBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} style={{backgroundColor:"#c3dfe9"}}>
-      <AppBar position="static" style={{backgroundColor:"#c3dfe9"}}>
+    <div className={classes.root} >
+      <AppBar position="static" className={classes.navbar}>
         <Toolbar>
           <Typography variant="h5" className={classes.title} style={{padding:"1.5rem",color:"black",fontWeight:"bold"}}>
             Stocks

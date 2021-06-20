@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import Axios from "../axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import { Grid, Container, CircularProgress } from "@material-ui/core/";
-
+import {
+  Grid,
+  Container,
+  CircularProgress,
+  Typography,
+} from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    backgroundColor: "#DDDDDD",
   },
 }));
 
@@ -50,22 +55,34 @@ function Body() {
   const classes = useStyles();
   return (
     <div style={{ textAlign: "center" }}>
-      <Container maxWidth="sm" style={{ marginTop: "15vh" }}>
-
-          <input
-            type="text"
-            value={searchItem}
-            name="searchInput"
-            onChange={handleChange}
-            placeholder="    Search"
-            style={{
-              width: "100%",
-              height: "6vh",
-              fontSize: "1.5rem",
-              borderRadius: "10px",
-            }}
-          />
-          
+      <Container maxWidth="sm" style={{ marginTop: "3vh" }}>
+        <Typography
+          variant="h4"
+          className={classes.title}
+          style={{ padding: "1.5rem", color: "black", fontWeight: "bold" }}
+        >
+          The easiest way to buy and sell stock
+        </Typography>
+        <Typography
+          variant="h6"
+          className={classes.title}
+          style={{ color: "black" }}
+        >
+          Stock analysis and screening tool for <br /> investors in India
+        </Typography>
+        <input
+          type="text"
+          value={searchItem}
+          name="searchInput"
+          onChange={handleChange}
+          placeholder=" 🔍 Search a company"
+          style={{
+            width: "100%",
+            height: "6vh",
+            fontSize: "1.5rem",
+            borderRadius: "10px",
+          }}
+        />
       </Container>
 
       {data === undefined || data.length === 0
@@ -73,7 +90,7 @@ function Body() {
         : searchItem !== "" &&
           data.map((results) => (
             <p
-              style={{ color: "black" }}
+              style={{ color: "red" }}
               onClick={() => {
                 redirectPage(results.Name);
               }}
@@ -90,7 +107,7 @@ function Body() {
             maxWidth="sm"
             style={{
               backgroundColor: "white",
-              marginTop: "15vh",
+              marginTop: "5vh",
               padding: "30px",
               borderRadius: "10px",
               boxShadow: "1px 4px 6px grey",
@@ -100,7 +117,15 @@ function Body() {
               <p style={{ textAlign: "left", fontWeight: "bold" }}>
                 {results.Name}
               </p>
-              <Grid container spacing={2}>
+              <Grid
+                container
+                spacing={1}
+                style={{
+                  backgroundColor: "#DDDDDD",
+                  padding: "10px",
+                  borderRadius: "10px",
+                }}
+              >
                 <Grid item xs={4}>
                   <Paper className={classes.paper}>
                     Market Price:{" "}
